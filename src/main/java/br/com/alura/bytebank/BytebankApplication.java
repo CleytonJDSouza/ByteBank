@@ -13,10 +13,11 @@ public class BytebankApplication {
     private static Scanner teclado = new Scanner(System.in).useDelimiter("\n");
 
     public static void main(String[] args) {
-        var opcao = exibirMenu();
-        while (opcao != 7) {
+        var opcaoString = exibirMenu();
+        int opcaoNumero = Integer.parseInt(opcaoString);
+        while (opcaoNumero != 7) {
             try {
-                switch (opcao) {
+                switch (opcaoNumero) {
                     case 1:
                         listarContas();
                         break;
@@ -41,13 +42,13 @@ public class BytebankApplication {
                 System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu");
                 teclado.next();
             }
-            opcao = exibirMenu();
+            opcaoNumero = Integer.parseInt(exibirMenu());
         }
 
         System.out.println("Finalizando a aplicação.");
     }
 
-    private static int exibirMenu() {
+    private static String exibirMenu() {
         System.out.println("""
                 BYTEBANK - ESCOLHA UMA OPÇÃO:
                 1 - Listar contas abertas
@@ -58,7 +59,7 @@ public class BytebankApplication {
                 6 - Realizar depósito em uma conta
                 7 - Sair
                 """);
-        return teclado.nextInt();
+        return teclado.next().replaceAll("[^\\d]", "");
     }
 
     private static void listarContas() {
@@ -72,18 +73,18 @@ public class BytebankApplication {
 
     private static void abrirConta() {
         System.out.println("Digite o número da conta:");
-        var numeroDaConta = teclado.nextInt();
+        String numeroDaConta = teclado.next().replaceAll("[^\\d]", "");
 
         System.out.println("Digite o nome do cliente:");
         var nome = teclado.next();
 
         System.out.println("Digite o cpf do cliente:");
-        var cpf = teclado.next();
+        var cpf = teclado.next().replaceAll("[^\\d]", "");
 
         System.out.println("Digite o email do cliente:");
         var email = teclado.next();
 
-        service.abrir(new DadosAberturaConta(numeroDaConta, new DadosCadastroCliente(nome, cpf, email)));
+        service.abrir(new DadosAberturaConta(Integer.parseInt(numeroDaConta), new DadosCadastroCliente(nome, cpf, email)));
 
         System.out.println("Conta aberta com sucesso!");
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
