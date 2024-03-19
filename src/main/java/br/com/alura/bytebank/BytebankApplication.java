@@ -52,7 +52,7 @@ public class BytebankApplication {
         System.out.println("""
                 BYTEBANK - ESCOLHA UMA OPÇÃO:
                 1 - Listar contas abertas
-                2 - Abertura de conta
+                2 - Abertura de contae
                 3 - Encerramento de conta
                 4 - Consultar saldo de uma conta
                 5 - Realizar saque em uma conta
