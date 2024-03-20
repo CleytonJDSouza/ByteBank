@@ -5,6 +5,7 @@ import br.com.alura.bytebank.domain.cliente.DadosCadastroCliente;
 import br.com.alura.bytebank.domain.conta.ContaService;
 import br.com.alura.bytebank.domain.conta.DadosAberturaConta;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class BytebankApplication {
@@ -52,7 +53,7 @@ public class BytebankApplication {
         System.out.println("""
                 BYTEBANK - ESCOLHA UMA OPÇÃO:
                 1 - Listar contas abertas
-                2 - Abertura de contae
+                2 - Abertura de conta
                 3 - Encerramento de conta
                 4 - Consultar saldo de uma conta
                 5 - Realizar saque em uma conta
@@ -104,20 +105,24 @@ public class BytebankApplication {
 
     private static void consultarSaldo() {
         System.out.println("Digite o número da conta:");
-        var numeroDaConta = teclado.nextInt();
+        var numeroDaContaStr = teclado.next().replaceAll("[^\\d]", "");
+        int numeroDaConta = Integer.parseInt(numeroDaContaStr);
+    
         var saldo = service.consultarSaldo(numeroDaConta);
-        System.out.println("Saldo da conta: " +saldo);
-
+        System.out.println("Saldo da conta: " + saldo);
+    
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
         teclado.next();
     }
 
     private static void realizarSaque() {
         System.out.println("Digite o número da conta:");
-        var numeroDaConta = teclado.nextInt();
+        var numeroDaContaStr = teclado.next().replaceAll("[^\\d]", "");
+        int numeroDaConta = Integer.parseInt(numeroDaContaStr);
 
         System.out.println("Digite o valor do saque:");
-        var valor = teclado.nextBigDecimal();
+        var valorStr = teclado.next().replaceAll("[^\\d.]", "");
+        BigDecimal valor = new BigDecimal(valorStr);
 
         service.realizarSaque(numeroDaConta, valor);
         System.out.println("Saque realizado com sucesso!");
@@ -127,10 +132,12 @@ public class BytebankApplication {
 
     private static void realizarDeposito() {
         System.out.println("Digite o número da conta:");
-        var numeroDaConta = teclado.nextInt();
+        var numeroDaContaStr = teclado.next().replaceAll("[^\\d]", "");
+        int numeroDaConta = Integer.parseInt(numeroDaContaStr);
 
         System.out.println("Digite o valor do depósito:");
-        var valor = teclado.nextBigDecimal();
+        var valorStr = teclado.next().replaceAll("[^\\d.]", "");
+        BigDecimal valor = new BigDecimal(valorStr);
 
         service.realizarDeposito(numeroDaConta, valor);
 
