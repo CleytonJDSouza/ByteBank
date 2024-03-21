@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.script.Bindings;
+
 public class ContaService {
 
     private Set<Conta> contas = new HashSet<>();

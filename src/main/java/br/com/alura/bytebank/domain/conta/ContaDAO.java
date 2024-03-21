@@ -107,7 +107,7 @@ public class ContaDAO {
         return conta;
     }
 
-    public void alterar(Integer numero, BigDecimal valor) {
+    /*public void alterar(Integer numero, BigDecimal valor) {
         PreparedStatement ps;
         String sql = "UPDATE conta SET saldo = ? WHERE numero = ?";
 
@@ -121,6 +121,23 @@ public class ContaDAO {
             ps.close();
             conn.close();
 
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }*/
+
+    public void alterar(Integer numero, BigDecimal valor) {
+        PreparedStatement ps;
+        String sql = "UPDATE conta SET saldo = ? WHERE numero = ?";
+
+        try{
+            ps = conn.prepareStatement(sql);
+
+            ps.setBigDecimal(1, valor);
+            ps.setInt(2, numero);
+
+            ps.execute();
+            ps.close();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
