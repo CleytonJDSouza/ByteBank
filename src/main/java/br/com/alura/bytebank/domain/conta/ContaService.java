@@ -55,7 +55,12 @@ public class ContaService {
         BigDecimal novoSaldo = conta.getSaldo().add(valor);
         conta.setSaldo(novoSaldo);
         alterar(conta, novoSaldo);
-    }    
+    }
+    
+    public void realizarTransferencia (Integer numeroDaContaOrigem, Integer numeroDaContaDestino, BigDecimal valor) {
+        this.realizarSaque(numeroDaContaDestino, valor);
+        this.realizarDeposito(numeroDaContaDestino, valor);
+    }
 
     private void alterar(Conta conta, BigDecimal valor) {
         Connection conn = connection.recuperarConexao();
