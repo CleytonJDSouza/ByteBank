@@ -8,12 +8,9 @@ import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.script.Bindings;
-
 public class ContaService {
 
     private Set<Conta> contas = new HashSet<>();
-
     private ConnectionFactory connection;
 
     public ContaService() {
@@ -40,23 +37,25 @@ public class ContaService {
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RegraDeNegocioException("Valor do saque deve ser superior a zero!");
         }
-
+    
         if (valor.compareTo(conta.getSaldo()) > 0) {
             throw new RegraDeNegocioException("Saldo insuficiente!");
         }
-
-        BigDecimal novoValor = conta.getSaldo().subtract(valor);
-        alterar(conta, novoValor);
+    
+        BigDecimal novoSaldo = conta.getSaldo().subtract(valor);
+        alterar(conta, novoSaldo);
     }
-
+    
     public void realizarDeposito(Integer numeroDaConta, BigDecimal valor) {
         var conta = buscarContaPorNumero(numeroDaConta);
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new RegraDeNegocioException("Valor do deposito deve ser superior a zero!");
+            throw new RegraDeNegocioException("Valor do depósito deve ser superior a zero!");
         }
-
-        alterar(conta, valor);
-    }
+    
+        BigDecimal novoSaldo = conta.getSaldo().add(valor);
+        conta.setSaldo(novoSaldo);
+        alterar(conta, novoSaldo);
+    }    
 
     private void alterar(Conta conta, BigDecimal valor) {
         Connection conn = connection.recuperarConexao();
