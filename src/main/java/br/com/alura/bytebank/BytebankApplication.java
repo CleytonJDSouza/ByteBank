@@ -16,7 +16,7 @@ public class BytebankApplication {
     public static void main(String[] args) {
         var opcaoString = exibirMenu();
         int opcaoNumero = Integer.parseInt(opcaoString);
-        while (opcaoNumero != 7) {
+        while (opcaoNumero != 8) {
             try {
                 switch (opcaoNumero) {
                     case 1:
@@ -37,6 +37,8 @@ public class BytebankApplication {
                     case 6:
                         realizarDeposito();
                         break;
+                    case 7:
+                        realizarTransferencia();
                 }
             } catch (RegraDeNegocioException e) {
                 System.out.println("Erro: " +e.getMessage());
@@ -58,7 +60,8 @@ public class BytebankApplication {
                 4 - Consultar saldo de uma conta
                 5 - Realizar saque em uma conta
                 6 - Realizar depósito em uma conta
-                7 - Sair
+                7 - Realizar Transferência
+                8 - Sair
                 """);
         return teclado.next().replaceAll("[^\\d]", "");
     }
@@ -94,7 +97,8 @@ public class BytebankApplication {
 
     private static void encerrarConta() {
         System.out.println("Digite o número da conta:");
-        var numeroDaConta = teclado.nextInt();
+        var numeroDaContaStr = teclado.next().replaceAll("[^\\d]", "");
+        int numeroDaConta = Integer.parseInt(numeroDaContaStr);
 
         service.encerrar(numeroDaConta);
 
@@ -142,6 +146,26 @@ public class BytebankApplication {
         service.realizarDeposito(numeroDaConta, valor);
 
         System.out.println("Depósito realizado com sucesso!");
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
+    }
+
+    private static void realizarTransferencia() {
+        System.out.println("Digite o número da conta de origem:");
+        var numeroDaContaOrigemStr = teclado.next().replaceAll("[^\\d]", "");
+        int numeroDaContaOrigem = Integer.parseInt(numeroDaContaOrigemStr);
+    
+        System.out.println("Digite o número da conta de destino:");
+        var numeroDaContaDestinoStr = teclado.next().replaceAll("[^\\d]", "");
+        int numeroDaContaDestino = Integer.parseInt(numeroDaContaDestinoStr);
+    
+        System.out.println("Digite o valor a ser transferido:");
+        var valorStr = teclado.next().replaceAll("[^\\d.]", "");
+        BigDecimal valor = new BigDecimal(valorStr);
+    
+        service.realizarTransferencia(numeroDaContaOrigem, numeroDaContaDestino, valor);
+    
+        System.out.println("Transferência realizada com sucesso!");
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
         teclado.next();
     }
