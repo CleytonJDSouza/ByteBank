@@ -100,7 +100,7 @@ public class BytebankApplication {
         var numeroDaContaStr = teclado.next().replaceAll("[^\\d]", "");
         int numeroDaConta = Integer.parseInt(numeroDaContaStr);
 
-        service.encerrar(numeroDaConta);
+        service.encerrarLogico(numeroDaConta);
 
         System.out.println("Conta encerrada com sucesso!");
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");

@@ -153,4 +153,29 @@ public class ContaDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void alterarLogico(Integer numeroDaConta) {
+        PreparedStatement ps;
+        String sql = "UPDATE conta SET esta_ativa = false WHERE numero = ?";
+
+        try {
+            conn.setAutoCommit(false);
+
+            ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, numeroDaConta);
+
+            ps.execute();
+            conn.commit();
+            ps.close();
+            conn.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+         } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+    }
 }
